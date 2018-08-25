@@ -1,5 +1,11 @@
+setup: setup_db
+	go get -u github.com/pressly/goose/cmd/goose
+
 setup_db:
 	psql -c "CREATE DATABASE $(DB_NAME)"
+
+build:
+	go build -o hoot cmd/*
 
 setup_test:
 	psql -c "DROP DATABASE IF EXISTS $(DB_NAME)_test"
