@@ -1,4 +1,4 @@
-package main
+package hoot
 
 import (
 	"github.com/dghubble/go-twitter/twitter"

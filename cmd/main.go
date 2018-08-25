@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+
+	"github.com/ricardohsd/hoot"
 )
 
 func main() {
@@ -33,10 +35,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	client := NewTwitterClient(consumerKey, consumerSecret, token, tokenSecret)
+	client := hoot.NewTwitterClient(consumerKey, consumerSecret, token, tokenSecret)
 
-	storage := NewStorage(dbUser, dbPassword, dbName)
-	scrapper := NewScrapper(client)
+	storage := hoot.NewStorage(dbUser, dbPassword, dbName)
+	scrapper := hoot.NewScrapper(client)
 
 	tweets := scrapper.Fetch(user, amount)
 	storage.Ingest(tweets)
