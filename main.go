@@ -25,14 +25,21 @@ func main() {
 		os.Exit(1)
 	}
 
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbName := os.Getenv("DB_NAME")
+	if len(dbUser) == 0 || len(dbPassword) == 0 || len(dbName) == 0 {
+		fmt.Println("env variables DB_USER, DB_PASSWORD, DB_NAME must be set")
+		os.Exit(1)
+	}
+
 	client := NewTwitterClient(consumerKey, consumerSecret, token, tokenSecret)
 
+	storage := NewStorage(dbUser, dbPassword, dbName)
 	scrapper := NewScrapper(client)
 
 	tweets := scrapper.Fetch(user, amount)
-	for tweet := range tweets {
-		fmt.Printf("Tweet ID: %v, Text: %v\n", tweet.ID, tweet.Text)
-	}
+	storage.Ingest(tweets)
 
 	fmt.Println("closing...")
 }
